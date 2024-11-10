@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Management System</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Health Care Management System</h1>
+        
+        <!-- Login Form -->
+        <div id="loginSection">
+            <form id="loginForm" class="form-card" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <div id="response"></div> <!-- For displaying messages -->
+        </div>
+
+        <!-- Main Dashboard (Hidden initially) -->
+        <div id="dashboard" class="hidden-section">
+            <!-- Navigation Tabs -->
+            <div class="tabs">
+                <button class="tab-button" data-tab="appointmentBookingSection" onclick="showTab('appointmentBookingSection')">Book Appointment</button>
+                <button class="tab-button" data-tab="upcomingAppointmentsSection" onclick="showTab('upcomingAppointmentsSection')">Upcoming Appointments</button>
+                <button class="tab-button" data-tab="cancelAppointmentSection" onclick="showTab('cancelAppointmentSection')">Cancel Appointment</button>
+                <button class="tab-button" data-tab="viewReportsSection" onclick="showTab('viewReportsSection')">View Reports</button> <!-- New View Reports tab -->
+            </div>
+
+            <!-- Dashboard Header with User Info -->
+            <div id="userInfo" class="user-info hidden-section">
+                <span id="usernameDisplay"></span>
+                <div id="logoutOption" class="logout-option hidden-section">
+                    <button onclick="logout()">Logout</button>
+                </div>
+            </div>
+
+            <!-- Appointment Booking Section -->
+            <div id="appointmentBookingSection" class="tab-content">
+                <h2>Book New Appointment</h2>
+                <button id="fetchAvailableDates" class="action-button" onclick="fetchAvailableDates()">View Available Dates</button>
+                <div id="availableDates" class="dates-container"></div>
+                <div id="bookingResponse"></div>
+            </div>
+
+            <!-- Confirmation Modal -->
+            <div id="confirmationModal" class="modal hidden-section">
+                <div class="modal-content">
+                    <h2>Confirm Appointment</h2>
+                    <p id="modalMessage"></p>
+                    <div class="modal-buttons">
+                        <button id="confirmBooking" class="confirm-button">Confirm</button>
+                        <button id="cancelModal" class="cancel-button">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    <!-- Include your JavaScript file -->
+    <script src="/js/script.js"></script>
+
+    <!-- Inline JavaScript for login and logout functionality -->
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const responseDiv = document.getElementById('response');
+
+            responseDiv.innerText = 'Logging in...';
+
+            fetch('/api/authenticate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: username, password })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Invalid credentials');
+                }
+            })
+            .then(message => {
+                // Hide login section and show dashboard
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+
+                // Display logged-in username
+                document.getElementById('usernameDisplay').innerText = username;
+                
+                // Show user info and logout option
+                document.getElementById('userInfo').style.display = 'block';
+                document.getElementById('logoutOption').style.display = 'block'; // Show logout option
+
+                // Clear response message after 5 seconds
+                responseDiv.innerText = message;
+                setTimeout(() => responseDiv.innerText = '', 5000);
+            })
+            .catch(error => {
+                responseDiv.innerText = error.message;
+            });
+        }
+
+        function logout() {
+            // Clear user data (e.g., username display)
+            document.getElementById('usernameDisplay').innerText = '';
+            
+            // Hide dashboard and show login section
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+
+            alert("You have been logged out.");
+        }
+
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-button[data-tab="${tabId}"]`).classList.add('active');
+
+            if (tabId === 'viewReportsSection') {
+                fetchReportDates(); // Fetch report dates when this tab is shown
+            }
+        }
+
+        function fetchReportDates() {
+            const reportDatesContainer = document.getElementById('reportDates');
+            
+            // Dummy data for report dates, replace with actual data as needed
+            const dates = ["2024-10-01", "2024-09-25", "2024-09-10"]; // Replace with actual fetch call
+
+            // Clear previous data
+            reportDatesContainer.innerHTML = ''; 
+
+            // Display each date as a clickable item
+            dates.forEach(date => {
+                const dateItem = document.createElement('p');
+                dateItem.textContent = date;
+                dateItem.onclick = () => toggleReport(date);
+                reportDatesContainer.appendChild(dateItem);
+            });
+        }
+
+        // Other existing functions remain unchanged...
+    </script>
+
+</body>
+</html>

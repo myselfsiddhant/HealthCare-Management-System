@@ -1,0 +1,197 @@
+body {
+    font-family: 'Libre Franklin', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+input[type='text'], input[type='password'], input[type='date'] {
+    width: calc(100% - 20px);
+    padding: 10px;
+}
+
+button {
+    padding: 10px;
+    width: 100%;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Animation */
+}
+
+button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.hidden-section {
+    display: none; /* Hides sections initially */
+}
+
+.tabs {
+    display: flex;
+}
+
+.tab-button {
+    flex-grow: 1; /* Equal space for buttons */
+    padding: 10px;
+    border: none;
+    background-color: #e9ecef; /* Light gray */
+}
+
+.tab-button.active {
+    background-color: #28a745; /* Green for active tab */
+    color: white; /* White text for active tab */
+}
+
+.tab-content {
+    margin-top: 20px; /* Space between tabs and content */
+}
+
+.report-dates-container p {
+   margin: 5px 0; /* Space between report dates */
+   transition: transform 0.3s ease, background-color 0.3s ease; /* Animation */
+   padding: 5px;
+   border-radius: 4px; /* Rounded corners */
+}
+
+.report-dates-container p:hover {
+   transform: scale(1.05); /* Slightly enlarge on hover */
+   background-color: #e9ecef; /* Light gray background on hover */
+}
+
+.modal {
+   display: none; /* Hidden by default */
+   position: fixed; /* Stay in place */
+   z-index: 1; /* Sit on top */
+   left: 0;
+   top: 0;
+   width: 100%; /* Full width */
+   height: 100%; /* Full height */
+   overflow: auto; /* Enable scroll if needed */
+   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+   background-color: #fefefe;
+   margin: 15% auto; /* Centered modal */
+}
+
+.user-info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+.user-info:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.logout-option {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.logout-option button {
+    padding: 5px 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-option button:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+.user-info:hover .logout-option {
+    display: block;
+}
+
+.hidden-section {
+    display: none; /* Hide elements initially */
+}
+
+
+.hidden-section {
+    display: none;
+}
+
+/* Toggle switch styles */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Rounded slider */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
